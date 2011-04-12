@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using ADOX;
+using System.IO;
 
 namespace LectureAccess
 {
@@ -195,6 +196,38 @@ namespace LectureAccess
             txtQuery.Text = @"SELECT  *
 FROM    " + cbxTableList.SelectedItem.ToString();
             Go();
+        }
+
+        /// <summary>
+        /// Drop d'un élément sur la fenêtre.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void frmMain_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                return;
+
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (files.Length == 1 && File.Exists(files[0]))
+                DbName = files[0];
+            else if (files.Length > 1)
+                MessageBox.Show("Un seul fichier à la fois s'il vous plait.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Effets du Drag&Drop.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void frmMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
         }
     }
 }
