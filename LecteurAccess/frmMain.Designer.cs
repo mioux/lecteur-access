@@ -38,6 +38,7 @@
             this.btnIndexes = new System.Windows.Forms.Button();
             this.txtErr = new System.Windows.Forms.TextBox();
             this.cbxTableList = new System.Windows.Forms.ComboBox();
+            this.lblOpenDB = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +75,7 @@
             this.txtQuery.Location = new System.Drawing.Point(93, 14);
             this.txtQuery.Multiline = true;
             this.txtQuery.Name = "txtQuery";
-            this.txtQuery.Size = new System.Drawing.Size(510, 138);
+            this.txtQuery.Size = new System.Drawing.Size(510, 109);
             this.txtQuery.TabIndex = 2;
             this.txtQuery.Text = "SELECT 1 AS DATA";
             // 
@@ -140,11 +141,21 @@
             this.cbxTableList.TabIndex = 8;
             this.cbxTableList.SelectedIndexChanged += new System.EventHandler(this.cbxTableList_SelectedIndexChanged);
             // 
+            // lblOpenDB
+            // 
+            this.lblOpenDB.AutoSize = true;
+            this.lblOpenDB.Location = new System.Drawing.Point(94, 134);
+            this.lblOpenDB.Name = "lblOpenDB";
+            this.lblOpenDB.Size = new System.Drawing.Size(171, 13);
+            this.lblOpenDB.TabIndex = 9;
+            this.lblOpenDB.Text = "Aucune base de données ouverte.";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 743);
+            this.Controls.Add(this.lblOpenDB);
             this.Controls.Add(this.cbxTableList);
             this.Controls.Add(this.txtErr);
             this.Controls.Add(this.btnIndexes);
@@ -174,6 +185,7 @@
         private System.Windows.Forms.Button btnIndexes;
         private System.Windows.Forms.TextBox txtErr;
         private System.Windows.Forms.ComboBox cbxTableList;
+        private System.Windows.Forms.Label lblOpenDB;
     }
 }
 

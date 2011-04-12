@@ -16,7 +16,7 @@ namespace LectureAccess
         /// Nom de la base de données (champs privé).
         /// </summary>
 
-        private string dbName = string.Empty;
+        private string _dbName = string.Empty;
 
         /// <summary>
         /// Nom de la base de données.
@@ -24,8 +24,8 @@ namespace LectureAccess
 
         public string DbName
         {
-            get { return dbName; }
-            set { dbName = value; }
+            get { return _dbName; }
+            set { _dbName = value; lblOpenDB.Text = value; }
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace LectureAccess
         {
             txtErr.Text = string.Empty;
 
-            OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbName + ";User Id=admin;Password=;");
+            OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
             try
             {
                 con.Open();
@@ -78,11 +78,11 @@ namespace LectureAccess
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                dbName = ofd.FileName;
+                DbName = ofd.FileName;
                 Go();
 
                 Catalog cat = new Catalog();
-                cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbName + ";User Id=admin;Password=;");
+                cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
 
                 cbxTableList.Items.Clear();
                 foreach (Table tbl in cat.Tables)
@@ -98,7 +98,7 @@ namespace LectureAccess
         private void btnKeys_Click(object sender, EventArgs e)
         {
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
             try
             {
                 DataTable tblData = new DataTable();
@@ -124,7 +124,7 @@ namespace LectureAccess
             txtErr.Text = string.Empty;
 
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
 
             DataTable tblData = new DataTable();
             tblData.Columns.Add("Table");
@@ -160,7 +160,7 @@ namespace LectureAccess
             txtErr.Text = string.Empty;
 
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
 
             DataTable tblData = new DataTable();
             tblData.Columns.Add("Table");
