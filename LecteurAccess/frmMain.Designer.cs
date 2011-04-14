@@ -82,9 +82,11 @@
             this.txtQuery.Location = new System.Drawing.Point(84, 3);
             this.txtQuery.Multiline = true;
             this.txtQuery.Name = "txtQuery";
+            this.txtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtQuery.Size = new System.Drawing.Size(528, 110);
             this.txtQuery.TabIndex = 2;
             this.txtQuery.Text = "SELECT 1 AS DATA";
+            this.txtQuery.WordWrap = false;
             // 
             // btnExecute
             // 
