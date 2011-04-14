@@ -60,7 +60,7 @@
             this.dgvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvResults.Location = new System.Drawing.Point(0, 0);
             this.dgvResults.Name = "dgvResults";
-            this.dgvResults.Size = new System.Drawing.Size(615, 430);
+            this.dgvResults.Size = new System.Drawing.Size(615, 210);
             this.dgvResults.TabIndex = 0;
             // 
             // btnOpen
@@ -182,7 +182,7 @@
             // sptQueryData.Panel2
             // 
             this.sptQueryData.Panel2.Controls.Add(this.sptDataErr);
-            this.sptQueryData.Size = new System.Drawing.Size(615, 743);
+            this.sptQueryData.Size = new System.Drawing.Size(615, 523);
             this.sptQueryData.SplitterDistance = 175;
             this.sptQueryData.TabIndex = 10;
             // 
@@ -201,8 +201,8 @@
             // sptDataErr.Panel2
             // 
             this.sptDataErr.Panel2.Controls.Add(this.txtErr);
-            this.sptDataErr.Size = new System.Drawing.Size(615, 564);
-            this.sptDataErr.SplitterDistance = 430;
+            this.sptDataErr.Size = new System.Drawing.Size(615, 344);
+            this.sptDataErr.SplitterDistance = 210;
             this.sptDataErr.TabIndex = 1;
             // 
             // frmMain
@@ -210,7 +210,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 743);
+            this.ClientSize = new System.Drawing.Size(615, 523);
             this.Controls.Add(this.sptQueryData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(400, 350);
