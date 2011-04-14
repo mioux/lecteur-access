@@ -17,7 +17,7 @@ namespace LectureAccess
             Application.SetCompatibleTextRenderingDefault(false);
             frmMain frm = new frmMain();
             if (args.Length > 0 && File.Exists(args[0]))
-                frm.DbName = args[0];
+                frm.OpenDB(args[0]);
             Application.Run(frm);
         }
     }

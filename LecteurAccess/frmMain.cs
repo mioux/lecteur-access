@@ -268,7 +268,7 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
         /// </summary>
         /// <param name="dbName">Fichier à ouvrir.</param>
 
-        private void OpenDB(string dbName)
+        public void OpenDB(string dbName)
         {
             DbName = dbName;
 
