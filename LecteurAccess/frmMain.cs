@@ -18,6 +18,8 @@ namespace LectureAccess
         /// </summary>
 
         private string _dbName = string.Empty;
+        private const string _conStringTemplate = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};User Id=admin;Password=;";
+        private string _conString = string.Empty;
 
         /// <summary>
         /// Nom de la base de données.
@@ -26,7 +28,12 @@ namespace LectureAccess
         public string DbName
         {
             get { return _dbName; }
-            set { _dbName = value; lblOpenDB.Text = value; }
+            set
+            {
+                _dbName = value;
+                lblOpenDB.Text = value;
+                _conString = string.Format(_conStringTemplate, value);
+            }
         }
 
         /// <summary>
@@ -39,14 +46,14 @@ namespace LectureAccess
         }
 
         /// <summary>
-        /// 
+        /// Lancer une requête.
         /// </summary>
 
         private void Go()
         {
             txtErr.Text = string.Empty;
 
-            OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
+            OleDbConnection con = new OleDbConnection(_conString);
             try
             {
                 con.Open();
@@ -72,34 +79,42 @@ namespace LectureAccess
             }
         }
 
+        /// <summary>
+        /// Bouton ouvrir.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void btnOpen_Click(object sender, EventArgs e)
         {
             dgvResults.AutoGenerateColumns = true;
 
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                DbName = ofd.FileName;
-                Go();
-
-                Catalog cat = new Catalog();
-                cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
-
-                cbxTableList.Items.Clear();
-                foreach (Table tbl in cat.Tables)
-                    cbxTableList.Items.Add(tbl.Name);
-            }
+                OpenDB(ofd.FileName);
         }
+
+        /// <summary>
+        /// Exécuter une requête.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
             Go();
         }
 
+        /// <summary>
+        /// Table des clefs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void btnKeys_Click(object sender, EventArgs e)
         {
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection(_conString);
             try
             {
                 DataTable tblData = new DataTable();
@@ -120,12 +135,18 @@ namespace LectureAccess
             }
         }
 
+        /// <summary>
+        /// Table des relations.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void btnRelations_Click(object sender, EventArgs e)
         {
             txtErr.Text = string.Empty;
 
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection(_conString);
 
             DataTable tblData = new DataTable();
             tblData.Columns.Add("Table");
@@ -156,12 +177,18 @@ namespace LectureAccess
             dgvResults.DataSource = tblData;
         }
 
+        /// <summary>
+        /// Table des index.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void btnIndexes_Click(object sender, EventArgs e)
         {
             txtErr.Text = string.Empty;
 
             Catalog cat = new Catalog();
-            cat.let_ActiveConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _dbName + ";User Id=admin;Password=;");
+            cat.let_ActiveConnection(_conString);
 
             DataTable tblData = new DataTable();
             tblData.Columns.Add("Table");
@@ -191,10 +218,16 @@ namespace LectureAccess
             dgvResults.DataSource = tblData;
         }
 
+        /// <summary>
+        /// Sélection des données d'une table depuis le combobox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void cbxTableList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtQuery.Text = @"SELECT  *
-FROM    " + cbxTableList.SelectedItem.ToString();
+            txtQuery.Text = string.Format(@"SELECT  *
+FROM    [{0}]", cbxTableList.SelectedItem.ToString());
             Go();
         }
 
@@ -211,7 +244,7 @@ FROM    " + cbxTableList.SelectedItem.ToString();
 
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (files.Length == 1 && File.Exists(files[0]))
-                DbName = files[0];
+                OpenDB(files[0]);
             else if (files.Length > 1)
                 MessageBox.Show("Un seul fichier à la fois s'il vous plait.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -228,6 +261,25 @@ FROM    " + cbxTableList.SelectedItem.ToString();
                 e.Effect = DragDropEffects.All;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        /// <summary>
+        /// Ouvrir une BDD
+        /// </summary>
+        /// <param name="dbName">Fichier à ouvrir.</param>
+
+        private void OpenDB(string dbName)
+        {
+            DbName = dbName;
+
+            Go();
+
+            Catalog cat = new Catalog();
+            cat.let_ActiveConnection(_conString);
+
+            cbxTableList.Items.Clear();
+            foreach (Table tbl in cat.Tables)
+                cbxTableList.Items.Add(tbl.Name);
         }
     }
 }
