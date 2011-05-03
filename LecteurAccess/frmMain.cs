@@ -63,6 +63,8 @@ namespace LectureAccess
                 adapter.Fill(data);
 
                 dgvResults.DataSource = data;
+
+                txtErr.Text = string.Format("{0} lignes retournées", data.Rows.Count);
             }
             catch (Exception ex)
             {
