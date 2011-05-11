@@ -283,5 +283,21 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
             foreach (Table tbl in cat.Tables)
                 cbxTableList.Items.Add(tbl.Name);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == (System.Windows.Forms.Keys.R | System.Windows.Forms.Keys.Control)
+                ||
+                e.KeyData == System.Windows.Forms.Keys.F5)
+            {
+                Go();
+            }
+        }
     }
 }

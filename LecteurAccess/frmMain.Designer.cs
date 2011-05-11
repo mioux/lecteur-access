@@ -213,11 +213,13 @@
             this.ClientSize = new System.Drawing.Size(615, 523);
             this.Controls.Add(this.sptQueryData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "frmMain";
             this.Text = "Lecture de base Access";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmMain_DragEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
             this.sptQueryData.Panel1.ResumeLayout(false);
             this.sptQueryData.Panel1.PerformLayout();
