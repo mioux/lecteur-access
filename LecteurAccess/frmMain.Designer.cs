@@ -69,7 +69,7 @@
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 1;
-            this.btnOpen.Text = "Ouvrir";
+            this.btnOpen.Text = "&Ouvrir";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
@@ -94,7 +94,7 @@
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 23);
             this.btnExecute.TabIndex = 3;
-            this.btnExecute.Text = "Exécuter";
+            this.btnExecute.Text = "&Exécuter";
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
             // 
@@ -104,7 +104,7 @@
             this.btnKeys.Name = "btnKeys";
             this.btnKeys.Size = new System.Drawing.Size(75, 23);
             this.btnKeys.TabIndex = 4;
-            this.btnKeys.Text = "Clefs";
+            this.btnKeys.Text = "Clefs (&K)";
             this.btnKeys.UseVisualStyleBackColor = true;
             this.btnKeys.Click += new System.EventHandler(this.btnKeys_Click);
             // 
@@ -114,7 +114,7 @@
             this.btnRelations.Name = "btnRelations";
             this.btnRelations.Size = new System.Drawing.Size(75, 23);
             this.btnRelations.TabIndex = 5;
-            this.btnRelations.Text = "Relations";
+            this.btnRelations.Text = "&Relations";
             this.btnRelations.UseVisualStyleBackColor = true;
             this.btnRelations.Click += new System.EventHandler(this.btnRelations_Click);
             // 
@@ -124,7 +124,7 @@
             this.btnIndexes.Name = "btnIndexes";
             this.btnIndexes.Size = new System.Drawing.Size(75, 23);
             this.btnIndexes.TabIndex = 6;
-            this.btnIndexes.Text = "Index";
+            this.btnIndexes.Text = "&Index";
             this.btnIndexes.UseVisualStyleBackColor = true;
             this.btnIndexes.Click += new System.EventHandler(this.btnIndexes_Click);
             // 

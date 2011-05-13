@@ -84,10 +84,19 @@ namespace LectureAccess
         /// <summary>
         /// Bouton ouvrir.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void btnOpen_Click(object sender, EventArgs e)
+        {
+            OpenBase();
+        }
+
+        /// <summary>
+        /// Ouverture d'une BDD.
+        /// </summary>
+
+        private void OpenBase()
         {
             dgvResults.AutoGenerateColumns = true;
 
@@ -99,8 +108,8 @@ namespace LectureAccess
         /// <summary>
         /// Exécuter une requête.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
@@ -110,10 +119,19 @@ namespace LectureAccess
         /// <summary>
         /// Table des clefs.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void btnKeys_Click(object sender, EventArgs e)
+        {
+            ViewKeys();
+        }
+
+        /// <summary>
+        /// Affichage de la table des clefs.
+        /// </summary>
+
+        private void ViewKeys()
         {
             Catalog cat = new Catalog();
             cat.let_ActiveConnection(_conString);
@@ -140,10 +158,19 @@ namespace LectureAccess
         /// <summary>
         /// Table des relations.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void btnRelations_Click(object sender, EventArgs e)
+        {
+            ViewRelations();
+        }
+
+        /// <summary>
+        /// Affichage de la table des relations.
+        /// </summary>
+
+        private void ViewRelations()
         {
             txtErr.Text = string.Empty;
 
@@ -182,10 +209,19 @@ namespace LectureAccess
         /// <summary>
         /// Table des index.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void btnIndexes_Click(object sender, EventArgs e)
+        {
+            ViewIndexes();
+        }
+
+        /// <summary>
+        /// Affichage de la table des index.
+        /// </summary>
+
+        private void ViewIndexes()
         {
             txtErr.Text = string.Empty;
 
@@ -223,8 +259,8 @@ namespace LectureAccess
         /// <summary>
         /// Sélection des données d'une table depuis le combobox.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Aucun argument.</param>
 
         private void cbxTableList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -236,8 +272,8 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
         /// <summary>
         /// Drop d'un élément sur la fenêtre.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Argument de drag&drop.</param>
 
         private void frmMain_DragDrop(object sender, DragEventArgs e)
         {
@@ -254,8 +290,8 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
         /// <summary>
         /// Effets du Drag&Drop.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Argument de drag&drop.</param>
 
         private void frmMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -285,19 +321,36 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
         }
 
         /// <summary>
-        /// 
+        /// Raccourcis clavier.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Elément déclencheur.</param>
+        /// <param name="e">Argument de la touche pressée.</param>
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == (System.Windows.Forms.Keys.R | System.Windows.Forms.Keys.Control)
+            // C-e ou F5 => Exécuter.
+            if (e.KeyData == (System.Windows.Forms.Keys.E | System.Windows.Forms.Keys.Control)
                 ||
                 e.KeyData == System.Windows.Forms.Keys.F5)
             {
                 Go();
             }
+
+            // C-o => Ouvrir.
+            if (e.KeyData == (System.Windows.Forms.Keys.O | System.Windows.Forms.Keys.Control))
+                OpenBase();
+
+            // C-k => Affichage des clefs.
+            if (e.KeyData == (System.Windows.Forms.Keys.K | System.Windows.Forms.Keys.Control))
+                ViewKeys();
+
+            // C-i => Affichage des index.
+            if (e.KeyData == (System.Windows.Forms.Keys.I | System.Windows.Forms.Keys.Control))
+                ViewIndexes();
+
+            // C-r => Affichage des relations.
+            if (e.KeyData == (System.Windows.Forms.Keys.R | System.Windows.Forms.Keys.Control))
+                ViewRelations();
         }
     }
 }
