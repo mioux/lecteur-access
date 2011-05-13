@@ -18,7 +18,7 @@ namespace LectureAccess
         /// </summary>
 
         private string _dbName = string.Empty;
-        private const string _conStringTemplate = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};User Id=admin;Password=;";
+        private const string _conStringTemplate = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};User Id=admin;Password=;OLE DB Services = -2;";
         private string _conString = string.Empty;
 
         /// <summary>
@@ -54,6 +54,7 @@ namespace LectureAccess
             txtErr.Text = string.Empty;
 
             OleDbConnection con = new OleDbConnection(_conString);
+            OleDbConnection.ReleaseObjectPool();
             try
             {
                 con.Open();
@@ -74,10 +75,11 @@ namespace LectureAccess
             try
             {
                 con.Close();
+                con.Dispose();
             }
-            catch
+            catch (Exception ex)
             {
-
+                txtErr.Text += "Erreur à la fermeture de la base : " + ex.Message;
             }
         }
 
@@ -148,6 +150,8 @@ namespace LectureAccess
                 }
 
                 dgvResults.DataSource = tblData;
+
+                CloseCatalogConnection(cat);
             }
             catch (Exception ex)
             {
@@ -174,36 +178,45 @@ namespace LectureAccess
         {
             txtErr.Text = string.Empty;
 
-            Catalog cat = new Catalog();
-            cat.let_ActiveConnection(_conString);
-
-            DataTable tblData = new DataTable();
-            tblData.Columns.Add("Table");
-            tblData.Columns.Add("Key");
-            tblData.Columns.Add("RelatedTable");
-            tblData.Columns.Add("Column");
-
-            foreach (Table data in cat.Tables)
+            try
             {
-                foreach (Key dataKey in data.Keys)
+                Catalog cat = new Catalog();
+                cat.let_ActiveConnection(_conString);
+
+                DataTable tblData = new DataTable();
+                tblData.Columns.Add("Table");
+                tblData.Columns.Add("Key");
+                tblData.Columns.Add("RelatedTable");
+                tblData.Columns.Add("Column");
+
+                foreach (Table data in cat.Tables)
                 {
-                    DataRow tblDataRow = tblData.Rows.Add(data.Name, dataKey.Name, dataKey.RelatedTable);
-                    string cols = string.Empty;
-                    try
+                    foreach (Key dataKey in data.Keys)
                     {
-                        foreach (Column dataKeyColumn in dataKey.Columns)
-                            cols += dataKeyColumn.Name + " ";
-                    }
-                    catch
-                    {
+                        DataRow tblDataRow = tblData.Rows.Add(data.Name, dataKey.Name, dataKey.RelatedTable);
+                        string cols = string.Empty;
+                        try
+                        {
+                            foreach (Column dataKeyColumn in dataKey.Columns)
+                                cols += dataKeyColumn.Name + " ";
+                        }
+                        catch
+                        {
 
-                    }
+                        }
 
-                    tblDataRow["Column"] = cols;
+                        tblDataRow["Column"] = cols;
+                    }
                 }
-            }
 
-            dgvResults.DataSource = tblData;
+                dgvResults.DataSource = tblData;
+
+                CloseCatalogConnection(cat);
+            }
+            catch (Exception ex)
+            {
+                txtErr.Text = ex.Message;
+            }
         }
 
         /// <summary>
@@ -225,35 +238,44 @@ namespace LectureAccess
         {
             txtErr.Text = string.Empty;
 
-            Catalog cat = new Catalog();
-            cat.let_ActiveConnection(_conString);
-
-            DataTable tblData = new DataTable();
-            tblData.Columns.Add("Table");
-            tblData.Columns.Add("Index");
-            tblData.Columns.Add("Column");
-
-            foreach (Table data in cat.Tables)
+            try
             {
-                foreach (Index dataIndex in data.Indexes)
+                Catalog cat = new Catalog();
+                cat.let_ActiveConnection(_conString);
+
+                DataTable tblData = new DataTable();
+                tblData.Columns.Add("Table");
+                tblData.Columns.Add("Index");
+                tblData.Columns.Add("Column");
+
+                foreach (Table data in cat.Tables)
                 {
-                    DataRow tblDataRow = tblData.Rows.Add(data.Name, dataIndex.Name);
-                    string cols = string.Empty;
-                    try
+                    foreach (Index dataIndex in data.Indexes)
                     {
-                        foreach (Column dataKeyColumn in dataIndex.Columns)
-                            cols += dataKeyColumn.Name + " ";
-                    }
-                    catch
-                    {
+                        DataRow tblDataRow = tblData.Rows.Add(data.Name, dataIndex.Name);
+                        string cols = string.Empty;
+                        try
+                        {
+                            foreach (Column dataKeyColumn in dataIndex.Columns)
+                                cols += dataKeyColumn.Name + " ";
+                        }
+                        catch
+                        {
 
-                    }
+                        }
 
-                    tblDataRow["Column"] = cols;
+                        tblDataRow["Column"] = cols;
+                    }
                 }
-            }
 
-            dgvResults.DataSource = tblData;
+                dgvResults.DataSource = tblData;
+
+                CloseCatalogConnection(cat);
+            }
+            catch (Exception ex)
+            {
+                txtErr.Text = ex.Message;
+            }
         }
 
         /// <summary>
@@ -318,6 +340,20 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
             cbxTableList.Items.Clear();
             foreach (Table tbl in cat.Tables)
                 cbxTableList.Items.Add(tbl.Name);
+
+            CloseCatalogConnection(cat);
+        }
+
+        /// <summary>
+        /// Fermeture d'une connexion sur un catalogue ADOX
+        /// </summary>
+        /// <param name="cat"></param>
+
+        private void CloseCatalogConnection(Catalog cat)
+        {
+            ADODB.Connection con = (ADODB.Connection)cat.ActiveConnection;
+            if (con != null)
+                con.Close();
         }
 
         /// <summary>
