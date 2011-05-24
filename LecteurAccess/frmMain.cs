@@ -57,8 +57,12 @@ namespace LectureAccess
             OleDbConnection.ReleaseObjectPool();
             try
             {
+                string SQL = txtQuery.Text;
+                if (txtQuery.SelectionLength > 0)
+                    SQL = txtQuery.SelectedText;
+
                 con.Open();
-                OleDbCommand command = new OleDbCommand(txtQuery.Text, con);
+                OleDbCommand command = new OleDbCommand(SQL, con);
                 DataTable data = new DataTable();
                 OleDbDataAdapter adapter = new OleDbDataAdapter(command);
                 adapter.Fill(data);
