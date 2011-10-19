@@ -392,5 +392,25 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
             if (e.KeyData == (System.Windows.Forms.Keys.R | System.Windows.Forms.Keys.Control))
                 ViewRelations();
         }
+
+        /// <summary>
+        /// Affichage des NULL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void dgvResults_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value == DBNull.Value)
+            {
+                e.CellStyle.ForeColor = Color.Gray;
+                e.Value = "<NULL>";
+            }
+            else
+            {
+                e.CellStyle.ForeColor = Color.Black;
+            }
+
+        }
     }
 }

@@ -62,6 +62,7 @@
             this.dgvResults.Name = "dgvResults";
             this.dgvResults.Size = new System.Drawing.Size(615, 210);
             this.dgvResults.TabIndex = 0;
+            this.dgvResults.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvResults_CellFormatting);
             // 
             // btnOpen
             // 
