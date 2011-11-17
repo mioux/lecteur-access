@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using ADOX;
 using System.IO;
+using JRO;
+using LectureAccess.Properties;
 
 namespace LectureAccess
 {
@@ -19,6 +19,7 @@ namespace LectureAccess
 
         private string _dbName = string.Empty;
         private const string _conStringTemplate = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};User Id=admin;Password=;OLE DB Services = -2;";
+        private const string _conStringCompressTemplate = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}";
         private string _conString = string.Empty;
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace LectureAccess
 
                 dgvResults.DataSource = data;
 
-                txtErr.Text = string.Format("{0} lignes retournées", data.Rows.Count);
+                txtErr.Text = string.Format(Resources.INF_NB_RETURNED_LINES, data.Rows.Count);
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace LectureAccess
             }
             catch (Exception ex)
             {
-                txtErr.Text += "Erreur à la fermeture de la base : " + ex.Message;
+                txtErr.Text += Resources.ERR_CLOSING + ex.Message;
             }
         }
 
@@ -206,7 +207,7 @@ namespace LectureAccess
                         }
                         catch
                         {
-
+                            Debug.WriteLine(Resources.ERR_READING_RELATIONS);
                         }
 
                         tblDataRow["Column"] = cols;
@@ -265,7 +266,7 @@ namespace LectureAccess
                         }
                         catch
                         {
-
+                            Debug.WriteLine(Resources.ERR_READING_INDEXES);
                         }
 
                         tblDataRow["Column"] = cols;
@@ -291,7 +292,7 @@ namespace LectureAccess
         private void cbxTableList_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtQuery.Text = string.Format(@"SELECT  *
-FROM    [{0}]", cbxTableList.SelectedItem.ToString());
+FROM    [{0}]", cbxTableList.SelectedItem);
             Go();
         }
 
@@ -310,7 +311,7 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
             if (files.Length == 1 && File.Exists(files[0]))
                 OpenDB(files[0]);
             else if (files.Length > 1)
-                MessageBox.Show("Un seul fichier à la fois s'il vous plait.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.ERR_ONE_FILE_ONLY, Resources.ERR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -321,10 +322,7 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
 
         private void frmMain_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.All;
-            else
-                e.Effect = DragDropEffects.None;
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.All : DragDropEffects.None;
         }
 
         /// <summary>
@@ -411,6 +409,34 @@ FROM    [{0}]", cbxTableList.SelectedItem.ToString());
                 e.CellStyle.ForeColor = Color.Black;
             }
 
+        }
+
+        /// <summary>
+        /// Compresser la DB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void btnCompression_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists(_dbName))
+                return;
+
+            JetEngine jro = new JetEngineClass();
+
+            string newDb = _dbName + ".cpr";
+
+            try
+            {
+                jro.CompactDatabase(string.Format(_conStringCompressTemplate, _dbName), string.Format(_conStringCompressTemplate, newDb));
+                File.Delete(_dbName);
+                File.Move(newDb, _dbName);
+                txtErr.Text = string.Format(Resources.INF_COMPRESSION_COMPLETE);
+            }
+            catch (Exception exp)
+            {
+                txtErr.Text = string.Format(string.Format(Resources.ERR_CANNOT_COMPACT, exp.Message));
+            }
         }
     }
 }

@@ -41,6 +41,7 @@
             this.lblOpenDB = new System.Windows.Forms.Label();
             this.sptQueryData = new System.Windows.Forms.SplitContainer();
             this.sptDataErr = new System.Windows.Forms.SplitContainer();
+            this.btnCompression = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
             this.sptQueryData.Panel1.SuspendLayout();
             this.sptQueryData.Panel2.SuspendLayout();
@@ -170,6 +171,7 @@
             // 
             // sptQueryData.Panel1
             // 
+            this.sptQueryData.Panel1.Controls.Add(this.btnCompression);
             this.sptQueryData.Panel1.Controls.Add(this.btnOpen);
             this.sptQueryData.Panel1.Controls.Add(this.cbxTableList);
             this.sptQueryData.Panel1.Controls.Add(this.lblOpenDB);
@@ -205,6 +207,17 @@
             this.sptDataErr.Size = new System.Drawing.Size(615, 344);
             this.sptDataErr.SplitterDistance = 210;
             this.sptDataErr.TabIndex = 1;
+            // 
+            // btnCompression
+            // 
+            this.btnCompression.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCompression.Location = new System.Drawing.Point(528, 119);
+            this.btnCompression.Name = "btnCompression";
+            this.btnCompression.Size = new System.Drawing.Size(75, 23);
+            this.btnCompression.TabIndex = 10;
+            this.btnCompression.Text = "Compresser";
+            this.btnCompression.UseVisualStyleBackColor = true;
+            this.btnCompression.Click += new System.EventHandler(this.btnCompression_Click);
             // 
             // frmMain
             // 
@@ -248,6 +261,7 @@
         private System.Windows.Forms.Label lblOpenDB;
         private System.Windows.Forms.SplitContainer sptQueryData;
         private System.Windows.Forms.SplitContainer sptDataErr;
+        private System.Windows.Forms.Button btnCompression;
     }
 }
 
