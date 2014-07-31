@@ -86,6 +86,8 @@ namespace LectureAccess
             {
                 txtErr.Text += Resources.ERR_CLOSING + ex.Message;
             }
+
+            txtErr.Text += string.Format(Resources.INF_EXECUTION_DATE, DateTime.Now);
         }
 
         /// <summary>

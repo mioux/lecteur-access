@@ -134,16 +134,21 @@
     <value>N'a pas pu compacter la base de données.
 {0}</value>
   </data>
-  <data name="INF_COMPRESSION_COMPLETE">
-    <value xml:space="preserve">Compression terminée.</value>
+  <data name="INF_COMPRESSION_COMPLETE" xml:space="preserve">
+    <value>Compression terminée.</value>
   </data>
-  <data name="INF_NB_RETURNED_LINES">
-    <value xml:space="preserve">{0} lignes retournées</value>
+  <data name="INF_NB_RETURNED_LINES" xml:space="preserve">
+    <value>{0} lignes retournées</value>
   </data>
-  <data name="ERR_READING_INDEXES">
-    <value xml:space="preserve">Erreur lors de la lecture des index.</value>
+  <data name="ERR_READING_INDEXES" xml:space="preserve">
+    <value>Erreur lors de la lecture des index.</value>
   </data>
-  <data name="ERR_READING_RELATIONS">
-    <value xml:space="preserve">Erreur à la lecture des relations.</value>
+  <data name="ERR_READING_RELATIONS" xml:space="preserve">
+    <value>Erreur à la lecture des relations.</value>
+  </data>
+  <data name="INF_EXECUTION_DATE" xml:space="preserve">
+    <value>
+--
+Date d'exécution : {0}</value>
   </data>
 </root>
